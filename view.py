@@ -15,10 +15,11 @@ class Window(BoxLayout):
 
     def __init__(self, **kwargs):
         super(Window, self).__init__(**kwargs)
-        self.working_space = CanvasWidget()
-        self.menu = Menu(size_hint=(1, .2))
         self.saving_menu = SavingMenu(title='Save to', size_hint=(.4, .3))
-        self.saving_menu.bindings(self.working_space.save_canvas)
-        self.menu.bindings(save=self.saving_menu.open, clear=self.working_space.clear_canvas)
+        self.working_space = CanvasWidget(self.saving_menu)
+        self.menu = Menu(self.working_space, size_hint=(1, .2))
+        self.saving_menu.bindings(save=self.working_space.save_canvas)
+        self.menu.bindings(save=self.saving_menu.open,
+                           clear=self.working_space.clear_canvas)
         self.add_widget(self.working_space)
         self.add_widget(self.menu)

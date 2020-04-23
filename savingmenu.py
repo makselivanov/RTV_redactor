@@ -2,7 +2,6 @@ from kivy.uix.popup import Popup
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
-from kivy.uix.label import Label
 
 
 class SavingMenu(Popup):
@@ -23,8 +22,7 @@ class SavingMenu(Popup):
         buttons.add_widget(self.btn_save)
         buttons.add_widget(self.btn_cancel)
         self.text_input = TextInput(size_hint=(1, .2), multiline=False)
-        # bl.add_widget(self.text_input)
-        bl.add_widget(Label(text='Image will be saved in image.png'))
+        bl.add_widget(self.text_input)
         bl.add_widget(buttons)
         self.add_widget(bl)
 

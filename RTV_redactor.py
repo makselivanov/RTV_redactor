@@ -8,6 +8,7 @@ class MainApp(App):
         Launching of application
 
         Visit https://github.com/makselivanov/RTV_redactor for more information
+
     """
 
     def __init__(self, **kwargs):
