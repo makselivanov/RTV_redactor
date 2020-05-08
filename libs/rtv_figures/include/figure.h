@@ -9,11 +9,16 @@ typedef double Angular;
 const Coordinate EPS = 0.04;
 
 class InnerPoint {
-    Coordinate x;
-    Coordinate y;
+    Coordinate px;
+    Coordinate py;
 public:
     InnerPoint(Coordinate x, Coordinate y);
-    InnerPoint();
+    InnerPoint() = default;
+    InnerPoint(const InnerPoint& other) = default;
+    InnerPoint(InnerPoint&& other) = default;
+    InnerPoint& operator=(const InnerPoint& other) = default;
+    InnerPoint& operator=(InnerPoint&& other) = default;
+
     Coordinate getX() const noexcept;
     void setX(Coordinate x) noexcept;
     Coordinate getY() const noexcept;
@@ -21,10 +26,10 @@ public:
     bool operator==(const InnerPoint& other) const noexcept;
     bool operator!=(const InnerPoint& other) const noexcept;
     MetricDist hypot() const noexcept;
-    InnerPoint operator+(const InnerPoint& other) const noexcept;
-    InnerPoint operator+=(const InnerPoint& other) noexcept;
-    InnerPoint operator-(const InnerPoint& other) const noexcept;
-    InnerPoint operator-=(const InnerPoint& other) noexcept;
+    InnerPoint&& operator+(const InnerPoint& other) const noexcept;
+    InnerPoint& operator+=(const InnerPoint& other) noexcept;
+    InnerPoint&& operator-(const InnerPoint& other) const noexcept;
+    InnerPoint& operator-=(const InnerPoint& other) noexcept;
     MetricDist dp(const InnerPoint& other) const noexcept; //dot product
     MetricDist cp(const InnerPoint& other) const noexcept; //cross product
 };
