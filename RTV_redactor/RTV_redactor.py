@@ -1,6 +1,6 @@
 from kivy.app import App
 
-from view import Window
+from RTV_redactor.view import Window
 
 
 class MainApp(App):
