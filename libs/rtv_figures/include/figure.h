@@ -7,6 +7,7 @@ typedef double Coordinate;
 typedef double MetricDist;
 typedef double Angular;
 const Coordinate EPS = 0.04;
+const Angular PI = 3.14159265358979323;
 
 class InnerPoint {
     Coordinate px;
@@ -14,24 +15,27 @@ class InnerPoint {
 public:
     InnerPoint(Coordinate x, Coordinate y);
     InnerPoint() = default;
-    InnerPoint(const InnerPoint& other) = default;
-    InnerPoint(InnerPoint&& other) = default;
-    InnerPoint& operator=(const InnerPoint& other) = default;
-    InnerPoint& operator=(InnerPoint&& other) = default;
+    InnerPoint(const InnerPoint &other) = default;
 
-    Coordinate getX() const noexcept;
-    void setX(Coordinate x) noexcept;
-    Coordinate getY() const noexcept;
-    void setY(Coordinate y) noexcept;
-    bool operator==(const InnerPoint& other) const noexcept;
-    bool operator!=(const InnerPoint& other) const noexcept;
-    MetricDist hypot() const noexcept;
-    InnerPoint&& operator+(const InnerPoint& other) const noexcept;
-    InnerPoint& operator+=(const InnerPoint& other) noexcept;
-    InnerPoint&& operator-(const InnerPoint& other) const noexcept;
-    InnerPoint& operator-=(const InnerPoint& other) noexcept;
-    MetricDist dp(const InnerPoint& other) const noexcept; //dot product
-    MetricDist cp(const InnerPoint& other) const noexcept; //cross product
+    InnerPoint &operator=(const InnerPoint &other) = default;
+    InnerPoint &operator=(InnerPoint &&other) = default;
+
+    Coordinate getX() const;
+    void setX(Coordinate x);
+    Coordinate getY() const;
+    void setY(Coordinate y);
+
+    bool operator==(const InnerPoint &other) const;
+    bool operator!=(const InnerPoint &other) const;
+
+    InnerPoint operator+(const InnerPoint &other) const;
+    InnerPoint &operator+=(const InnerPoint &other);
+    InnerPoint operator-(const InnerPoint &other) const;
+    InnerPoint &operator-=(const InnerPoint &other);
+
+    MetricDist hypot() const;
+    MetricDist dp(const InnerPoint &other) const; //dot product
+    MetricDist cp(const InnerPoint &other) const; //cross product
 };
 
 class PointList {
@@ -40,12 +44,12 @@ public:
 };
 
 class Figure {
-    InnerPoint center;
-    Angular angle;
-    MetricDist scale;
+    InnerPoint center_;
+    Angular angle_;
+    MetricDist scale_;
 public:
     Figure();
-    virtual ~Figure();
+    virtual ~Figure() = default;
     void extend(MetricDist scale);
     void move(const InnerPoint& position);
     void moveTo(const InnerPoint& position);

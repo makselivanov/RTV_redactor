@@ -37,10 +37,10 @@ InnerPoint& InnerPoint::operator+=(const InnerPoint &other) {
     return *this;
 }
 
-InnerPoint&& InnerPoint::operator+(const InnerPoint &other) const {
+InnerPoint InnerPoint::operator+(const InnerPoint &other) const {
     InnerPoint buffer(*this);
     buffer += other;
-    return buffer;
+    return std::move(buffer);
 }
 
 InnerPoint& InnerPoint::operator-=(const InnerPoint &other) {
@@ -49,10 +49,10 @@ InnerPoint& InnerPoint::operator-=(const InnerPoint &other) {
     return *this;
 }
 
-InnerPoint&& InnerPoint::operator-(const InnerPoint &other) const {
+InnerPoint InnerPoint::operator-(const InnerPoint &other) const {
     InnerPoint buffer(*this);
     buffer -= other;
-    return buffer;
+    return std::move(buffer);
 }
 
 MetricDist InnerPoint::dp(const InnerPoint &other) const {
@@ -61,4 +61,24 @@ MetricDist InnerPoint::dp(const InnerPoint &other) const {
 
 MetricDist InnerPoint::cp(const InnerPoint &other) const {
     return px * other.py - py * other.px;
+}
+
+Figure::Figure() : scale_(1), angle_(0), center_(0, 0) {}
+
+void Figure::extend(MetricDist scale) {
+    scale_ *= scale;
+}
+
+void Figure::move(const InnerPoint &position) {
+    center_ += position;
+}
+
+void Figure::moveTo(const InnerPoint &position) {
+    center_ = position;
+}
+
+void Figure::turn(Angular angle) {
+    angle_ += angle;
+    if (angle_ > 2 * PI || angle_ < 0)
+        angle_ = std::fmod(angle_, 2 * PI);
 }

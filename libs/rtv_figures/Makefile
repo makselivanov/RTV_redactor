@@ -2,25 +2,27 @@ CXX = g++
 #flags for compile files
 FLAGS =
 #flags for link objects files
-LFLAGS = -shared
+LFLAGS = -shared -lboost_python -lboost_system
 DEBUGFLAGS = -O0 -D _DEBUG
-RELEASEFLAGS = -03 -D NDEBUG
+RELEASEFLAGS = -O3 -D NDEBUG
 
 TARGET_LIB = rtv_figures.pyd
 SRCDIR = src
 SOURCES = $(wildcard $(SRCDIR)/*.cpp)
-INCDIR = include
+INCDIR = -Iinclude -I/usr/include/python3.6m
 OBJDIR = obj
 OBJECTS = $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(SOURCES))
 
 PHONY += all
+
 all: $(TARGET_LIB)
 
 $(TARGET_LIB): $(OBJECTS)
-	$(CXX) $(OBJECTS) -o $(TARGET_LIB) $(LDFLAGS)
+	echo $(PY_VERSION_HEX)
+	$(CXX) $(OBJECTS) -o $(TARGET_LIB) $(LFLAGS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp | $(OBJDIR)
-	$(CXX) $(FLAGS) $(RELEASEFLAGS) -c -MMD -o $@ $<
+	$(CXX) -fPIC $(FLAGS) $(RELEASEFLAGS) -c -MMD -o $@ $< $(INCDIR)
 
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
