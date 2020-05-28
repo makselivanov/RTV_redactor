@@ -1,7 +1,7 @@
 from kivy.uix.screenmanager import ScreenManager
 
-from mainscreen import MainScreen
-from startingscreen import StartingScreen
+from RTV_redactor.mainscreen import MainScreen
+from RTV_redactor.startingscreen import StartingScreen
 
 
 class ManagerScreen(ScreenManager):

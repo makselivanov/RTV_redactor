@@ -1,6 +1,6 @@
 from kivy.app import App
 
-from screens import ManagerScreen
+from RTV_redactor.screens import ManagerScreen
 
 
 class MainApp(App):

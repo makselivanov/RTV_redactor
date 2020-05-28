@@ -1,5 +1,5 @@
 from kivy.uix.screenmanager import Screen
-from window import Window
+from RTV_redactor.window import Window
 
 
 class MainScreen(Screen):
