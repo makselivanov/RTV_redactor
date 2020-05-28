@@ -10,7 +10,7 @@ class ProjectManager:
 
     def creation(self, name):
         self.name = name
-        self.path = os.path.join(r'projects', self.name)
+        self.path = os.path.join(r'RTV_redactor/projects', self.name)
         if not os.path.exists(self.path):
             os.mkdir(self.path)
         else:
@@ -22,7 +22,7 @@ class ProjectManager:
 
     def loading(self, name):
         self.name = name
-        self.path = os.path.join(r'projects', self.name)
+        self.path = os.path.join(r'RTV_redactor/projects', self.name)
         if not os.path.exists(self.path):
             print('No such projects!!!')
             return False
