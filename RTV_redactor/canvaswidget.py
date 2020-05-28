@@ -15,7 +15,7 @@ class CanvasWidget(Widget):
 
     """
 
-    def __init__(self, saving_menu, loading_menu, manager,  **kwargs):
+    def __init__(self, saving_menu, loading_menu, manager, **kwargs):
         super(CanvasWidget, self).__init__(**kwargs)
         self.track = None
         self._project_name = ''
@@ -25,8 +25,10 @@ class CanvasWidget(Widget):
         self._pen_color = (0, 0, 0, 1)
         self._pen_width = 5
         self.shreds = []
+        self.cur_point = None
+        self.eps = 5
         with self.canvas:
-            Color(1, .9, .9, 1)
+            Color(.9, .8, .8, 1)
             self.rect = Rectangle(pos=self.pos, size=self.size)
         self.bind(pos=self.update_rect, size=self.update_rect)
 
@@ -40,6 +42,8 @@ class CanvasWidget(Widget):
             rad = self._pen_width
             Ellipse(size=(rad, rad), pos=(touch.x - rad / 2, touch.y - rad / 2))
             touch.ud['track'] = Line(pos=(touch.x, touch.y), width=rad / 2)
+            touch.ud['semi-track'] = Line(pos=(touch.x, touch.y), width=rad / 2)
+            self.cur_point = (touch.x, touch.y)
         return super(CanvasWidget, self).on_touch_down(touch)
 
     @property
@@ -68,6 +72,9 @@ class CanvasWidget(Widget):
 
     def on_touch_move(self, touch):
         touch.ud['track'].points += (touch.x, touch.y)
+        if dist(self.cur_point, touch) >= self.eps:
+            touch.ud['semi-track'].points += (touch.x, touch.y)
+            self.cur_point = (touch.x, touch.y)
         return super(CanvasWidget, self).on_touch_move(touch)
 
     def on_touch_up(self, touch):
@@ -77,7 +84,7 @@ class CanvasWidget(Widget):
                     node = {
                         "color": self._pen_color,
                         "width": self._pen_width,
-                        "points": touch.ud['track'].points
+                        "points": touch.ud['semi-track'].points
                     }
                     self.shreds.append(node)
                     self.manager.update_logs(json.dumps(node))
@@ -96,11 +103,10 @@ class CanvasWidget(Widget):
             return super(CanvasWidget, self).on_touch_up(touch)
 
     def clear_canvas(self, instance):
-        instance.text = instance.text
         self.canvas.clear()
         self.shreds.clear()
         with self.canvas:
-            Color(1, .9, .9, 1)
+            Color(.9, .8, .8, 1)
             self.rect = Rectangle(pos=self.pos, size=self.size)
         self.bind(pos=self.update_rect, size=self.update_rect)
 
@@ -115,7 +121,7 @@ class CanvasWidget(Widget):
     def load_project(self, instance):
         instance.text = 'Load'
         with self.canvas:
-            Color(1, .9, .9, 1)
+            Color(.9, .8, .8, 1)
             self.rect = Rectangle(pos=self.pos, size=self.size)
         self.bind(pos=self.update_rect, size=self.update_rect)
         self._project_name = self._loading_menu.text_input.text
@@ -127,7 +133,7 @@ class CanvasWidget(Widget):
     def delete_last_shred(self, instance):
         instance.text = 'Back'
         with self.canvas:
-            Color(.9, .9, .9, 1)
+            Color(.9, .8, .8, 1)
             self.rect = Rectangle(pos=self.pos, size=self.size)
         self.bind(pos=self.update_rect, size=self.update_rect)
         self.manager.delete_last_node()
@@ -150,7 +156,16 @@ class CanvasWidget(Widget):
             for shred in self.shreds:
                 Color(rgba=shred["color"])
                 width = int(shred["width"])
+                if len(shred["points"]) == 2:
+                    with self.canvas:
+                        Ellipse(pos=(shred["points"][0] - width / 2, shred["points"][1] - width / 2),
+                                size=(width, width))
                 for i in range(0, len(shred["points"]) - 3, 2):
                     with self.canvas:
-                        line = Line(points=(shred["points"][i], shred["points"][i+1]), width=width / 2)
-                        line.points += (shred["points"][i+2], shred["points"][i+3])
+                        line = Line(points=(shred["points"][i], shred["points"][i + 1]), width=width / 2)
+                        line.points += (shred["points"][i + 2], shred["points"][i + 3])
+
+
+def dist(point1, point2):
+    print(point1[0], point2.x, point1[1], point2.y)
+    return ((point1[0] - point2.x) ** 2 + (point1[1] - point2.y) ** 2) ** 0.5

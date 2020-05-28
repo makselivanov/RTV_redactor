@@ -1,17 +1,17 @@
 from kivy.uix.boxlayout import BoxLayout
 
-from RTV_redactor.canvaswidget import CanvasWidget
-from RTV_redactor.menu import Menu
-from RTV_redactor.savingmenu import SavingMenu
-from RTV_redactor.loadingmenu import LoadingMenu
-from RTV_redactor.project_manager import ProjectManager
+from canvaswidget import CanvasWidget
+from images.menu import Menu
+from savingmenu import SavingMenu
+from loadingmenu import LoadingMenu
+from project_manager import ProjectManager
 
 
 class Window(BoxLayout):
     """
         In this class all components are merged in main window.
 
-        Here materializes bindings actions to buttons save, clear
+        Here materializes bindings actions to buttons
 
     """
 

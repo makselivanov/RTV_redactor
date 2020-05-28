@@ -1,6 +1,6 @@
 from kivy.app import App
 
-from RTV_redactor.view import Window
+from screens import ManagerScreen
 
 
 class MainApp(App):
@@ -13,10 +13,10 @@ class MainApp(App):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.window = Window(orientation='vertical')
+        self.ms = ManagerScreen()
 
     def build(self):
-        return self.window
+        return self.ms
 
 
 if __name__ == '__main__':
