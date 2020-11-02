@@ -1,5 +1,68 @@
 # ОСА. RTV_redactor
 
+## The task
+It is necessary to write a program that can translate
+hand-drawn bitmap diagrams in vector representation.
+
+## Explanation
+1) Translation is carried out in the process of drawing, i.e. algorithm
+not only the coordinates of the raster points are available, but also their time
+appearance.
+2) The resulting vector image can then be edited.
+3) In general, the program is a vector editor
+schemes with a special mode. In this mode, you can draw
+the shape with the mouse and click the "recognize" button. At the recruitment site
+points should appear a vector figure, which can now be
+edit as vector (resize, add
+inscription).
+4) Arrows / lines connecting
+figures. Simple heuristic formulas may be enough for this.
+
+## Separation of duties
+
+__Azarnikov Ivan__
+
+Development of a graphical interface
+
+__Ogloblin Ivan__
+
+Working with tracing algorithms, writing a classifier. Wrote his own algorithm of recognition with ideas of interpolation angles and point structures 
+
+__Selivanov Makar__
+
+Description of classes of shapes, writing a wrapper for python.
+
+## About interface
+
+The window consists of a black working area and the main menu, on
+which contains 6 buttons: `save`, ʻedit`, ʻeraser`,
+`color`,` width`, `clean`. `Save` is for saving
+thumbnail to the images directory in png format, ʻedit` - to switch
+between drawing and editing modes. ʻEraser` - eraser, `color`
+for choosing the color of the pen, `width` - the width of the pen,` clear` -
+for complete cleaning of the working area.
+
+## Boost installation tutorial
+
+* Download library from [official site] (https://www.boost.org/)
+* Unzip wherever convenient
+* Next, it will launch bootstrap.sh with this command
+>
+> ./ bootstrap.sh --with-libraries = python
+>
+* The project-config.jam file will appear, it will need to be changed a little:
+in the using python line, add the path to the includes (21 lines of the file)
+* It is necessary to make a line:
+>
+> using python: 3.6: "/usr/bin/python3.6": "/usr/include/python3.6";
+>
+__Every space is important here __. Instead of 3.6, write your version of the interpreter.
+* If there is nothing in / usr / include / python *, then you need to install python3.6-dev
+* Then we write
+> ./ b2 install —prefix = "The path where we want to install"
+ 
+--prefix can be omitted if you want to put it in the default place
+
 ## Задание 
 Необходимо написать программу, которая умеет переводить 
 нарисованные от руки растровые схемы в векторное представление.
